@@ -9938,6 +9938,11 @@ LGraphNode.prototype.executeAction = function(action)
                         }
                         ctx.fillStyle = text_color;
                         ctx.textAlign = "right";
+                        if (w.options.textWidth != undefined) {
+                            ctx.beginPath();
+                            ctx.rect(margin + (widget_width - margin * 2) * (1 - w.options.textWidth), y, (widget_width - margin * 2) * w.options.textWidth, H);
+                            ctx.clip();                        
+                        }
                         ctx.fillText(String(w.value).substr(0,30), widget_width - margin * 2, y + H * 0.7); //30 chars max
 						ctx.restore();
                     }

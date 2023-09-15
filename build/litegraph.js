@@ -9930,7 +9930,7 @@ LGraphNode.prototype.executeAction = function(action)
                         }
                         ctx.fillStyle = text_color;
                         ctx.textAlign = "right";
-                        ctx.fillText(String(w.value).substr(0,30), widget_width - margin * 2, y + H * 0.7); //30 chars max
+                        ctx.fillText(String(w.value).substr(0,30), widget_width - margin * 2, y + H * 0.7, widget_width * 0.7); //30 chars max
 						ctx.restore();
                     }
                     break;
@@ -14816,7 +14816,8 @@ if (typeof exports != "undefined") {
     GraphInput.title = "Input";
     GraphInput.desc = "Input of the graph";
 
-	GraphInput.prototype.onConfigure = function()
+	GraphInput.prototype.onConfigure = function()
+
 	{
 		this.updateType();
 	}
