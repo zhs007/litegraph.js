@@ -2,7 +2,8 @@
     var LiteGraph = global.LiteGraph;
 
     function AttributeNode() {
-        this.addOutput("", "number");
+        this.addInput("Change", "attribute");
+        this.addInput("Check", "checker");
         this.properties = {};
         var that = this;
 
@@ -10,6 +11,8 @@
         this.text2 = this.addWidget("text", "Info", "infomation", function (v) { }, { multiline: true, textWidth: 0.7 });
         this.minVal = this.addWidget("number", "Min", 0, function (v) { }, { step: 10, precision: 0 });
         this.maxVal = this.addWidget("number", "Max", 100, function (v) { }, { step: 10, precision: 0 });
+        this.initVal = this.addWidget("number", "Initial", 50, function (v) { }, { step: 10, precision: 0 });
+        this.isPrivate = this.addWidget("toggle", "Private", false, function (v) { }, { on: "true", off: "false" });
         this.size = this.computeSize();
         this.serialize_widgets = true;
     }
@@ -18,8 +21,43 @@
 
     LiteGraph.registerNodeType("cardgame3/attribute", AttributeNode);
 
+    function GameEndCheckerNode() {
+        this.addInput("Trigger", "triggerChecker");
+        this.addOutput("Check", "checker");
+        this.properties = {};
+        var that = this;
+
+        this.text = this.addWidget("text", "Name", "name", function (v) { }, { textWidth: 0.7 });
+        this.text2 = this.addWidget("text", "Info", "infomation", function (v) { }, { multiline: true, textWidth: 0.7 });
+        this.isLess = this.addWidget("toggle", "CheckMode", false, function (v) { }, { on: "<=", off: ">=" });
+        this.val = this.addWidget("number", "Val", 0, function (v) { }, { step: 10, precision: 0 });
+        this.size = this.computeSize();
+        this.serialize_widgets = true;
+    }
+
+    GameEndCheckerNode.title = "GameEndChecker";
+
+    LiteGraph.registerNodeType("cardgame3/gameEndChecker", GameEndCheckerNode);
+
+    function GameStartNode() {
+        this.addOutput("Trigger", "triggerChecker");
+        this.properties = {};
+        var that = this;
+
+        this.text = this.addWidget("string", "Name", "Start Game", function (v) { }, { textWidth: 0.7 });
+        // this.text2 = this.addWidget("text", "Info", "infomation", function (v) { }, { multiline: true, textWidth: 0.7 });
+        // this.isLess = this.addWidget("toggle", "CheckMode", false, function (v) { }, { on: "<=", off: ">=" });
+        // this.val = this.addWidget("number", "Val", 0, function (v) { }, { step: 10, precision: 0 });
+        this.size = this.computeSize();
+        this.serialize_widgets = true;
+    }
+
+    GameStartNode.title = "GameStart";
+
+    LiteGraph.registerNodeType("cardgame3/gameStart", GameStartNode);    
+
     function PersonNode() {
-        this.addOutput("", "number");
+        this.addOutput("", "attribute");
         this.properties = { url: "" };
         var that = this;
 
@@ -186,6 +224,6 @@
         });
     };
 
-    LiteGraph.registerNodeType("cardgame3/event", EventNode);    
+    LiteGraph.registerNodeType("cardgame3/event", EventNode);
 
 })(this);
