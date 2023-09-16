@@ -3,7 +3,7 @@
 
     function AttributeNode() {
         this.addInput("Change", "attribute");
-        this.addInput("Check", "checker");
+        this.addOutput("Check", "checker");
         this.properties = {};
         var that = this;
 
@@ -22,7 +22,7 @@
     LiteGraph.registerNodeType("cardgame3/attribute", AttributeNode);
 
     function GameEndCheckerNode() {
-        this.addInput("Trigger", "triggerChecker");
+        this.addInput("Active", "activeChecker");
         this.addOutput("Check", "checker");
         this.properties = {};
         var that = this;
@@ -40,7 +40,7 @@
     LiteGraph.registerNodeType("cardgame3/gameEndChecker", GameEndCheckerNode);
 
     function GameStartNode() {
-        this.addOutput("Trigger", "triggerChecker");
+        this.addOutput("Active", "activeChecker");
         this.properties = {};
         var that = this;
 
