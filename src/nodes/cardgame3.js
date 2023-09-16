@@ -3,7 +3,7 @@
 
     function AttributeNode() {
         this.addInput("Change", "attribute");
-        this.addOutput("Check", "checker");
+        this.addInput("Check", "checker");
         this.properties = {};
         var that = this;
 
