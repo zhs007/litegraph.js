@@ -77,21 +77,25 @@
         }
     }
 
-    function initNormalNode(node, title) {
+    function initNormalNode(typeCode, node, title) {
         node.title = title;
         node.prototype.onConfigure = onConfigure;
+
+        LiteGraph.registerNodeType(typeCode, node);
     }
 
-    function initCardNode(node, title) {
+    function initCardNode(typeCode, node, title) {
         node.title = title;
         node.prototype.onAdded = imgfuncOnAdded;
         node.prototype.onDrawBackground = imgfuncOnDrawBackground;
         node.prototype.onPropertyChanged = imgfuncOnPropertyChanged;
         node.prototype.loadImage = imgfuncLoadImage;
         node.prototype.onWidget = imgfuncOnWidget;
-        node.prototype.onDropFile = imgfuncOnDropFile;        
+        node.prototype.onDropFile = imgfuncOnDropFile;
         node.prototype.onConfigure = onConfigure;
-    }    
+
+        LiteGraph.registerNodeType(typeCode, node);
+    }
 
     function AttributeNode() {
         this.addInput("Change", "attribute");
@@ -109,8 +113,7 @@
         this.serialize_widgets = true;
     }
 
-    initNormalNode(AttributeNode, "Attribute");
-    LiteGraph.registerNodeType("cardgame3/attribute", AttributeNode);
+    initNormalNode("cardgame3/attribute", AttributeNode, "Attribute");
 
     function AttributeCheckerNode() {
         this.addInput("Active", "action");
@@ -127,8 +130,7 @@
         this.serialize_widgets = true;
     }
 
-    initNormalNode(AttributeCheckerNode, "AttributeChecker");
-    LiteGraph.registerNodeType("cardgame3/attributeChecker", AttributeCheckerNode);
+    initNormalNode("cardgame3/attributeChecker", AttributeCheckerNode, "AttributeChecker");
 
     function GameStartNode() {
         this.addOutput("Action", "action");
@@ -143,8 +145,7 @@
         this.serialize_widgets = true;
     }
 
-    initNormalNode(GameStartNode, "GameStart");
-    LiteGraph.registerNodeType("cardgame3/gameStart", GameStartNode);
+    initNormalNode("cardgame3/gameStart", GameStartNode, "GameStart");
 
     function PersonNode() {
         this.addOutput("", "attribute");
@@ -157,8 +158,7 @@
         this.serialize_widgets = true;
     }
 
-    initCardNode(PersonNode, "Person");
-    LiteGraph.registerNodeType("cardgame3/person", PersonNode);
+    initCardNode("cardgame3/person", PersonNode, "Person");
 
     function EventNode() {
         this.addOutput("", "number");
@@ -171,8 +171,7 @@
         this.serialize_widgets = true;
     }
 
-    initCardNode(EventNode, "Event");
-    LiteGraph.registerNodeType("cardgame3/event", EventNode);
+    initCardNode("cardgame3/event", EventNode, "Event");
 
     function GameEndingNode() {
         this.addInput("OpenCard", "action");
@@ -185,7 +184,6 @@
         this.serialize_widgets = true;
     }
 
-    initCardNode(GameEndingNode, "GameEnding");
-    LiteGraph.registerNodeType("cardgame3/gameEnding", GameEndingNode);
+    initCardNode("cardgame3/gameEnding", GameEndingNode, "GameEnding");
 
 })(this);
