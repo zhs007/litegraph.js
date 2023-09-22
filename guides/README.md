@@ -89,6 +89,7 @@ There are several callbacks that could be defined by the user:
 * **onDropFile**: file dropped over the node
 * **onConnectInput**: if returns false the incoming connection will be canceled
 * **onConnectionsChange**: a connection changed (new one or removed) (LiteGraph.INPUT or LiteGraph.OUTPUT, slot, true if connected, link_info, input_info )
+* **onLoaded**: called when the node is loaded
 
 
 ### Node slots

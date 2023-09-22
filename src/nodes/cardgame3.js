@@ -67,31 +67,55 @@
             });
         };
         reader.readAsDataURL(file);
-    };    
+    };
+
+    function onConfigure(info) {
+        const that = this;
+
+        if (!this.properties["data"] || this.properties["data"] == "") {
+            this.size = this.computeSize();
+        }
+    }
+
+    function initNormalNode(node, title) {
+        node.title = title;
+        node.prototype.onConfigure = onConfigure;
+    }
+
+    function initCardNode(node, title) {
+        node.title = title;
+        node.prototype.onAdded = imgfuncOnAdded;
+        node.prototype.onDrawBackground = imgfuncOnDrawBackground;
+        node.prototype.onPropertyChanged = imgfuncOnPropertyChanged;
+        node.prototype.loadImage = imgfuncLoadImage;
+        node.prototype.onWidget = imgfuncOnWidget;
+        node.prototype.onDropFile = imgfuncOnDropFile;        
+        node.prototype.onConfigure = onConfigure;
+    }    
 
     function AttributeNode() {
         this.addInput("Change", "attribute");
-        this.addInput("Check", "checker");
+        this.addOutput("Notice", "checkAttribute");
         this.properties = {};
         var that = this;
 
         this.text = this.addWidget("text", "Name", "name", function (v) { }, { textWidth: 0.7 });
         this.text2 = this.addWidget("text", "Info", "infomation", function (v) { }, { multiline: true, textWidth: 0.7 });
-        this.minVal = this.addWidget("number", "Min", 0, function (v) { }, { step: 10, precision: 0 });
-        this.maxVal = this.addWidget("number", "Max", 100, function (v) { }, { step: 10, precision: 0 });
+        // this.minVal = this.addWidget("number", "Min", 0, function (v) { }, { step: 10, precision: 0 });
+        // this.maxVal = this.addWidget("number", "Max", 100, function (v) { }, { step: 10, precision: 0 });
         this.initVal = this.addWidget("number", "Initial", 50, function (v) { }, { step: 10, precision: 0 });
         this.isPrivate = this.addWidget("toggle", "Private", false, function (v) { }, { on: "true", off: "false" });
         this.size = this.computeSize();
         this.serialize_widgets = true;
     }
 
-    AttributeNode.title = "Attribute";
-
+    initNormalNode(AttributeNode, "Attribute");
     LiteGraph.registerNodeType("cardgame3/attribute", AttributeNode);
 
-    function GameEndCheckerNode() {
-        this.addInput("Active", "activeChecker");
-        this.addOutput("Check", "checker");
+    function AttributeCheckerNode() {
+        this.addInput("Active", "action");
+        this.addInput("OnAttribute", "checkAttribute");
+        this.addOutput("Action", "action");
         this.properties = {};
         var that = this;
 
@@ -103,12 +127,11 @@
         this.serialize_widgets = true;
     }
 
-    GameEndCheckerNode.title = "GameEndChecker";
-
-    LiteGraph.registerNodeType("cardgame3/gameEndChecker", GameEndCheckerNode);
+    initNormalNode(AttributeCheckerNode, "AttributeChecker");
+    LiteGraph.registerNodeType("cardgame3/attributeChecker", AttributeCheckerNode);
 
     function GameStartNode() {
-        this.addOutput("Active", "activeChecker");
+        this.addOutput("Action", "action");
         this.properties = {};
         var that = this;
 
@@ -120,8 +143,7 @@
         this.serialize_widgets = true;
     }
 
-    GameStartNode.title = "GameStart";
-
+    initNormalNode(GameStartNode, "GameStart");
     LiteGraph.registerNodeType("cardgame3/gameStart", GameStartNode);
 
     function PersonNode() {
@@ -135,14 +157,7 @@
         this.serialize_widgets = true;
     }
 
-    PersonNode.title = "Person";
-    PersonNode.prototype.onAdded = imgfuncOnAdded;
-    PersonNode.prototype.onDrawBackground = imgfuncOnDrawBackground;
-    PersonNode.prototype.onPropertyChanged = imgfuncOnPropertyChanged;
-    PersonNode.prototype.loadImage = imgfuncLoadImage;
-    PersonNode.prototype.onWidget = imgfuncOnWidget;
-    PersonNode.prototype.onDropFile = imgfuncOnDropFile;
-
+    initCardNode(PersonNode, "Person");
     LiteGraph.registerNodeType("cardgame3/person", PersonNode);
 
     function EventNode() {
@@ -156,14 +171,21 @@
         this.serialize_widgets = true;
     }
 
-    EventNode.title = "Event";
-    EventNode.prototype.onAdded = imgfuncOnAdded;
-    EventNode.prototype.onDrawBackground = imgfuncOnDrawBackground;
-    EventNode.prototype.onPropertyChanged = imgfuncOnPropertyChanged;
-    EventNode.prototype.loadImage = imgfuncLoadImage;
-    EventNode.prototype.onWidget = imgfuncOnWidget;
-    EventNode.prototype.onDropFile = imgfuncOnDropFile;
-
+    initCardNode(EventNode, "Event");
     LiteGraph.registerNodeType("cardgame3/event", EventNode);
+
+    function GameEndingNode() {
+        this.addInput("OpenCard", "action");
+        this.properties = { data: "" };
+        var that = this;
+
+        this.text = this.addWidget("text", "Name", "name", function (v) { }, { textWidth: 0.7 });
+        this.text2 = this.addWidget("text", "Info", "infomation", function (v) { }, { multiline: true, textWidth: 0.7 });
+        this.size = this.computeSize();
+        this.serialize_widgets = true;
+    }
+
+    initCardNode(GameEndingNode, "GameEnding");
+    LiteGraph.registerNodeType("cardgame3/gameEnding", GameEndingNode);
 
 })(this);
