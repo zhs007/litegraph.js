@@ -250,7 +250,7 @@
         this.properties = {};
         var that = this;
 
-        this.text = this.addWidget("string", "Offset", "Start Game", function (v) { }, { textWidth: 0.7 });
+        this.text = this.addWidget("string", "Name", "Start Game", function (v) { }, { textWidth: 0.7 });
         this.text2 = this.addWidget("text", "Info", "infomation", function (v) { }, { multiline: true, textWidth: 0.7 });
         // this.isLess = this.addWidget("toggle", "CheckMode", false, function (v) { }, { on: "<=", off: ">=" });
         // this.val = this.addWidget("number", "Set", 0, function (v) { }, { step: 10, precision: 0 });
