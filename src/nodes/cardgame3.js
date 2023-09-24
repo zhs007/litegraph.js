@@ -148,7 +148,10 @@
     initNormalNode("cardgame3/gameStart", GameStartNode, "GameStart");
 
     function PersonNode() {
-        this.addOutput("", "attribute");
+        this.addInput("CardGroup", "card");
+        this.addOutput("OnInCardPool", "action");
+        this.addOutput("OnReady", "action");
+        this.addOutput("OnOpen", "action");
         this.properties = { data: "" };
         var that = this;
 
@@ -161,6 +164,7 @@
     initCardNode("cardgame3/person", PersonNode, "Person");
 
     function EventNode() {
+        this.addInput("CardGroup", "card");
         this.addOutput("OnInCardPool", "action");
         this.addOutput("OnReady", "action");
         this.addOutput("OnOpen", "action");
@@ -238,6 +242,22 @@
         this.serialize_widgets = true;
     }
 
-    initNormalNode("cardgame3/setVal", SetValNode, "SetVal");    
+    initNormalNode("cardgame3/setVal", SetValNode, "SetVal");
+    
+    function CardGroupjNode() {
+        this.addInput("Active", "action");
+        this.addOutput("Include", "card");
+        this.properties = {};
+        var that = this;
+
+        this.text = this.addWidget("string", "Offset", "Start Game", function (v) { }, { textWidth: 0.7 });
+        this.text2 = this.addWidget("text", "Info", "infomation", function (v) { }, { multiline: true, textWidth: 0.7 });
+        // this.isLess = this.addWidget("toggle", "CheckMode", false, function (v) { }, { on: "<=", off: ">=" });
+        // this.val = this.addWidget("number", "Set", 0, function (v) { }, { step: 10, precision: 0 });
+        this.size = this.computeSize();
+        this.serialize_widgets = true;
+    }
+
+    initNormalNode("cardgame3/cardGroup", CardGroupjNode, "CardGroup");    
 
 })(this);
